@@ -77,8 +77,17 @@ namespace api_sample.Controllers
         }
 
         // DELETE: api/Gaji/5
-        public void Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
+            try
+            {
+                gajiDAL.Delete(id);
+                return Ok($"Data Gaji id: {id} berhasil di delete");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}");
+            }
         }
     }
 }

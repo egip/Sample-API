@@ -10,9 +10,22 @@ namespace api_sample.DAL
 {
     public class GajiDAL : ICrud<Gaji>
     {
-        public void Delete(string id)
+        public void Delete(int id)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(Helper.getConnection()))
+            {
+                string strSql = @"delete from GAJI where ID = @id";
+                var param = new { ID = id};
+                try
+                {
+                    conn.Query<Gaji>(strSql, param); //use DAPPER
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception($"Number: {ex.Number}, Error: {ex.Message}");
+                }
+
+            }
         }
 
         public IEnumerable<Gaji> GetAll()
@@ -80,6 +93,11 @@ namespace api_sample.DAL
                     throw new Exception($"Number: {ex.Number}, Error: {ex.Message}");
                 }
             }
+        }
+
+        public void Delete(string id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
